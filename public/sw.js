@@ -1,5 +1,5 @@
-/* Color Chord — offline shell (v2: never stick on a broken shell) */
-const CACHE = "color-chord-v2";
+/* ColorChord Living Spectrum — offline shell v3 */
+const CACHE = "colorchord-v3";
 const PRECACHE = ["/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
@@ -26,7 +26,6 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navigations: always network-first, only cache successful HTML
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req)
@@ -42,7 +41,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Never cache the service worker itself
   if (url.pathname === "/sw.js") {
     event.respondWith(fetch(req));
     return;

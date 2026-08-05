@@ -4,9 +4,9 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { CreatedWithGrokBanner } from "@/components/created-with-grok-banner";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Color Chord";
+const APP_NAME = "ColorChord — Living Spectrum";
 const APP_DESC =
-  "Play harmony as color. Circle of Fifths mapped to the spectrum — screen light beam, rich tones, pure light mode. A pocket color organ.";
+  "A color is a chord. Circle of Fifths mapped to the spectrum — live resonance, journeys of light, a pocket color organ.";
 const host = import.meta.env.VITE_PUBLIC_HOSTNAME;
 const ogImage = host
   ? `https://og.grok.me/v1/card.png?host=${encodeURIComponent(host)}&title=${encodeURIComponent(APP_NAME)}`

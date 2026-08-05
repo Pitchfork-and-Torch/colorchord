@@ -5,8 +5,8 @@ import { a as getHost, c as isDynamicBaseURLConfig, d as wildcardMatch, i as get
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { M as require_jsx_runtime, c as HeadContent, d as Outlet, f as lazyRouteComponent, m as createRootRoute, p as createFileRoute, s as Scripts, u as createRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as defu, t as createDefu } from "../_libs/defu.mjs";
-import { o as chordColorLookup } from "./theory-CL5NkV1y.mjs";
-import { a as TriangleAlert } from "../_libs/lucide-react.mjs";
+import { o as chordColorLookup } from "./theory-C76ANaGL.mjs";
+import { o as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { n as hkdf, t as sha256 } from "../_libs/noble__hashes.mjs";
 import { i as jwtDecrypt, n as EncryptJWT, r as SignJWT, t as calculateJwkThumbprint } from "../_libs/jose.mjs";
 import { i as verifyPassword, n as binary, r as hashPassword, t as createHMAC } from "../_libs/better-auth__utils.mjs";
@@ -15,7 +15,7 @@ import { a as utf8ToBytes, i as managedNonce, n as bytesToHex, r as hexToBytes, 
 import { n as string$1, t as boolean$1 } from "../_libs/zod.mjs";
 import { t as Pool } from "../_libs/pg.mjs";
 import { randomBytes } from "node:crypto";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-Du8fPXNF.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-WK51H4IB.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AppErrorComponent({ error }) {
@@ -152,9 +152,9 @@ function CreatedWithGrokBanner() {
 		]
 	})] });
 }
-var styles_default = "/assets/styles-BQBzmZgS.css";
-var APP_NAME = "Color Chord";
-var APP_DESC = "Play harmony as color. Circle of Fifths mapped to the spectrum — screen light beam, rich tones, pure light mode. A pocket color organ.";
+var styles_default = "/assets/styles-1DaaKi6m.css";
+var APP_NAME = "ColorChord — Living Spectrum";
+var APP_DESC = "A color is a chord. Circle of Fifths mapped to the spectrum — live resonance, journeys of light, a pocket color organ.";
 function PwaRegister() {
 	(0, import_react.useEffect)(() => {
 		if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
@@ -262,7 +262,7 @@ var Route$4 = createRootRoute({
 		] })]
 	})
 });
-var $$splitComponentImporter$1 = () => import("./routes-VX1ikH8H.mjs");
+var $$splitComponentImporter$1 = () => import("./routes-gx7Focth.mjs");
 var Route$3 = createFileRoute("/")({
 	component: lazyRouteComponent($$splitComponentImporter$1, "component"),
 	ssr: false

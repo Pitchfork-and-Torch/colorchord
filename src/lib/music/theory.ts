@@ -191,15 +191,94 @@ export function beamColor(hues: number[], intensity = 1, mode: VisionMode = "ful
   return `hsl(${((avg % 360) + 360) % 360} 90% ${l}%)`;
 }
 
-/** Additive-style mix description for theory UI. */
+/** Circular mean of tones' hues (degrees 0–360). */
+export function mixHue(tones: PitchClass[]): number {
+  if (tones.length === 0) return 0;
+  if (tones.length === 1) return tones[0]!.hue;
+  let x = 0;
+  let y = 0;
+  for (const t of tones) {
+    const rad = (t.hue * Math.PI) / 180;
+    x += Math.cos(rad);
+    y += Math.sin(rad);
+  }
+  const deg = (Math.atan2(y, x) * 180) / Math.PI;
+  return ((deg % 360) + 360) % 360;
+}
+
+/** Named color for a single hue on the dual wheel. */
+export function colorNameFromHue(hue: number): string {
+  const h = ((hue % 360) + 360) % 360;
+  // Match / interpolate the twelve named spectral points
+  const names: { hue: number; name: string }[] = [
+    { hue: 0, name: "Crimson" },
+    { hue: 30, name: "Vermilion" },
+    { hue: 60, name: "Amber" },
+    { hue: 90, name: "Chartreuse" },
+    { hue: 120, name: "Emerald" },
+    { hue: 150, name: "Spring" },
+    { hue: 180, name: "Cyan" },
+    { hue: 210, name: "Azure" },
+    { hue: 240, name: "Sapphire" },
+    { hue: 270, name: "Violet" },
+    { hue: 300, name: "Magenta" },
+    { hue: 330, name: "Rose" },
+    { hue: 360, name: "Crimson" },
+  ];
+  // Mid-step names for between-fifths hues
+  const between: Record<number, string> = {
+    15: "Scarlet",
+    45: "Gold",
+    75: "Lime",
+    105: "Leaf",
+    135: "Jade",
+    165: "Teal",
+    195: "Sky",
+    225: "Cobalt",
+    255: "Indigo",
+    285: "Orchid",
+    315: "Fuchsia",
+    345: "Carmine",
+  };
+
+  let best = names[0]!;
+  let bestD = 360;
+  for (const n of names) {
+    let d = Math.abs(h - n.hue);
+    if (d > 180) d = 360 - d;
+    if (d < bestD) {
+      bestD = d;
+      best = n;
+    }
+  }
+  // Prefer between-name if closer to a mid point
+  for (const [key, name] of Object.entries(between)) {
+    const mid = Number(key);
+    let d = Math.abs(h - mid);
+    if (d > 180) d = 360 - d;
+    if (d < bestD) {
+      bestD = d;
+      best = { hue: mid, name };
+    }
+  }
+  return best.name;
+}
+
+/**
+ * Name of the additive center color for a set of tones.
+ * Wide span → pale / white names; otherwise the circular-mean hue name.
+ */
 export function mixColorName(tones: PitchClass[]): string {
   if (tones.length === 0) return "White light";
   if (tones.length === 1) return tones[0]!.colorName;
   const span = chordHueSpan(tones);
-  if (span >= 150) return "Near-white (wide spectrum blend)";
-  if (span >= 90) return "Complex prismatic mix";
-  if (span >= 50) return "Warm spectral blend";
-  return "Close-hue glow";
+  const hue = mixHue(tones);
+  const base = colorNameFromHue(hue);
+  if (span >= 150) return "Pearl white";
+  if (span >= 110) return `Pale ${base}`;
+  if (span >= 75) return `Soft ${base}`;
+  if (span >= 45) return base;
+  return base;
 }
 
 export const QUALITY_LABELS: Record<ChordQuality, string> = {
@@ -297,28 +376,28 @@ export function theoryBlurb(root: PitchClass, quality: ChordQuality, tones: Pitc
   const labels = tones.map((t) => t.label).join("–");
 
   if (quality === "major") {
-    return `Major ${labels}: root + M3 + P5. Geometry is a triangle on the dual wheel. Spectral mix ≈ ${mix}. Tones: ${names}. Consonance ≈ close fifths neighbors; the fifth (${tones[2]?.label ?? ""}) is the nearest warm hue step from the root.`;
+    return `Major ${labels}: root + M3 + P5. Geometry is a triangle on the dual wheel. Center light ≈ ${mix}. Tones: ${names}. Consonance ≈ close fifths neighbors; the fifth (${tones[2]?.label ?? ""}) is the nearest warm hue step from the root.`;
   }
   if (quality === "minor") {
-    return `Minor ${labels}: flattened third cools the harmony — the minor third sits a different fifths distance than the major third, so the triangle tilts toward cooler / more distant hues. Mix ≈ ${mix}. ${names}.`;
+    return `Minor ${labels}: flattened third cools the harmony — the minor third sits a different fifths distance than the major third, so the triangle tilts toward cooler / more distant hues. Center light ≈ ${mix}. ${names}.`;
   }
   if (quality === "dom7") {
-    return `Dominant 7 ${labels} wants to fall a fifth (resolve). Tritone tension inside the chord mirrors complementary-color pull (${comp.label} opposite ${root.label}). Wide hue span (~${Math.round(span)}°) = dissonance you can see. Mix ≈ ${mix}.`;
+    return `Dominant 7 ${labels} wants to fall a fifth (resolve). Tritone tension inside the chord mirrors complementary-color pull (${comp.label} opposite ${root.label}). Wide hue span (~${Math.round(span)}°) = dissonance you can see. Center light ≈ ${mix}.`;
   }
   if (quality === "maj7") {
-    return `Maj7 ${labels}: stacked thirds = stacked near-hues. Soft luminous wash (${mix}). Adjacent fifths colors ${names} blend like slow additive light.`;
+    return `Maj7 ${labels}: stacked thirds = stacked near-hues. Soft luminous wash of ${mix}. Adjacent fifths colors ${names}.`;
   }
   if (quality === "min7") {
-    return `Min7 ${labels}: mellow tetrad across the ring. Hue span ~${Math.round(span)}° — less polar than a dominant, more prismatic than a triad. ${names}.`;
+    return `Min7 ${labels}: mellow tetrad across the ring. Hue span ~${Math.round(span)}° — center settles as ${mix}. ${names}.`;
   }
   if (quality === "sus4") {
-    return `Sus4 ${labels} freezes the third — neither major warmth nor minor cool. Open fifths geometry; colors ${names} hang between resolution paths. Mix ≈ ${mix}.`;
+    return `Sus4 ${labels} freezes the third — neither major warmth nor minor cool. Open fifths geometry; colors ${names} hang between resolution paths. Center light ≈ ${mix}.`;
   }
   if (quality === "dim") {
-    return `Dim ${labels}: minor thirds stack into high tension. Colors sit at unstable intervals (span ~${Math.round(span)}°). Visually restless — like beating wavelengths. ${names}.`;
+    return `Dim ${labels}: minor thirds stack into high tension. Colors sit at unstable intervals (span ~${Math.round(span)}°). Visually restless — center reads as ${mix}. ${names}.`;
   }
   if (quality === "aug") {
-    return `Aug ${labels}: major thirds trisect the octave and nearly trisect the color circle — symmetric, bright, unresolved. ${names}. Mix ≈ ${mix}.`;
+    return `Aug ${labels}: major thirds trisect the octave and nearly trisect the color circle — symmetric, bright, unresolved. ${names}. Center light ≈ ${mix}.`;
   }
   return `${root.label} ${QUALITY_LABELS[quality]} → ${names}. Complementary pole: ${comp.label} ${comp.colorName}.`;
 }

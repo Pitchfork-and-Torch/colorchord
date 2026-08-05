@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/theory-CL5NkV1y.js
+//#region node_modules/.nitro/vite/services/ssr/assets/theory-C76ANaGL.js
 /** Circle of fifths order starting at C (top), clockwise. Hue maps 1:1 to fifths position. */
 var FIFTHS = [
 	{
@@ -656,4 +656,4 @@ function chordColorLookup(raw) {
 	};
 }
 //#endregion
-export { polar as _, beamColor as a, theoryHeadline as b, complementaryPitch as c, hsl as d, inferQuality as f, parseChordSymbol as g, nearestPitchFromFrequency as h, VOICE_LABELS as i, fifthsAngle as l, mixHues as m, PROGRESSIONS as n, chordColorLookup as o, mixColorName as p, QUALITY_LABELS as r, chordPitches as s, FIFTHS as t, frequencyOf as u, romanDegree as v, theoryBlurb as y };
+export { pitchByMidi as _, beamColor as a, theoryBlurb as b, complementaryPitch as c, hsl as d, inferQuality as f, parseChordSymbol as g, nearestPitchFromFrequency as h, VOICE_LABELS as i, fifthsAngle as l, mixHues as m, PROGRESSIONS as n, chordColorLookup as o, mixColorName as p, QUALITY_LABELS as r, chordPitches as s, FIFTHS as t, frequencyOf as u, polar as v, theoryHeadline as x, romanDegree as y };

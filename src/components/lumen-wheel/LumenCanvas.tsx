@@ -4,12 +4,14 @@ import {
   complementaryPitch,
   fifthsAngle,
   hsl,
+  mixColorName,
   mixHues,
   polar,
   type ChordQuality,
   type PitchClass,
   type VisionMode,
 } from "@/lib/music/theory";
+import { SpectrumGL } from "@/components/lumen-wheel/SpectrumGL";
 
 type Particle = {
   x: number;
@@ -35,6 +37,16 @@ export interface LumenCanvasProps {
   tilt: { beta: number; gamma: number };
   burstKey: number;
   intensity: number;
+  /** Live resonance energy per pitch-class midi 0–11 */
+  resonanceEnergy?: number[];
+  /** Scale pitches to ghost-highlight on the ring */
+  scalePitches?: PitchClass[];
+  /** Multi-selected notes for theory playground */
+  multiSelect?: PitchClass[];
+  /** Previous chord tones for voice-leading trails */
+  trailTones?: PitchClass[];
+  /** Enable WebGL atmosphere (default true). */
+  shaders?: boolean;
   onSelectRoot: (p: PitchClass, velocity: number) => void;
   onRotationChange: (r: number) => void;
   className?: string;
@@ -53,6 +65,11 @@ export function LumenCanvas({
   tilt,
   burstKey,
   intensity,
+  resonanceEnergy = [],
+  scalePitches = [],
+  multiSelect = [],
+  trailTones = [],
+  shaders = true,
   onSelectRoot,
   onRotationChange,
   className,
@@ -78,6 +95,10 @@ export function LumenCanvas({
     visionMode,
     tilt,
     intensity,
+    resonanceEnergy,
+    scalePitches,
+    multiSelect,
+    trailTones,
   });
 
   stateRef.current = {
@@ -91,6 +112,10 @@ export function LumenCanvas({
     visionMode,
     tilt,
     intensity,
+    resonanceEnergy,
+    scalePitches,
+    multiSelect,
+    trailTones,
   };
 
   useEffect(() => {
@@ -156,7 +181,7 @@ export function LumenCanvas({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     const resize = () => {
@@ -187,6 +212,10 @@ export function LumenCanvas({
         visionMode: mode,
         tilt: tiltNow,
         intensity: intens,
+        resonanceEnergy: resE,
+        scalePitches: scalePts,
+        multiSelect: multi,
+        trailTones: trail,
       } = stateRef.current;
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -209,19 +238,20 @@ export function LumenCanvas({
       const coreR = size * 0.065;
       const fx = 0.55 + intens * 0.55;
 
-      ctx.fillStyle = pureLight ? "#030306" : "#070709";
-      ctx.fillRect(0, 0, w, h);
+      // Clear to transparent so WebGL spectrum shows through
+      ctx.clearRect(0, 0, w, h);
 
+      // Soft vignette only — atmosphere is WebGL
       if (!pureLight) {
-        for (let i = 0; i < 70; i++) {
-          const sx = (Math.sin(42 + i * 12.3) * 0.5 + 0.5) * w;
-          const sy = (Math.cos(42 + i * 7.1) * 0.5 + 0.5) * h;
-          const a = 0.1 + 0.35 * (0.5 + 0.5 * Math.sin(t * 0.001 + i));
-          ctx.fillStyle = `rgba(240,240,245,${a * 0.4})`;
-          ctx.beginPath();
-          ctx.arc(sx, sy, i % 9 === 0 ? 1.1 : 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        const vg = ctx.createRadialGradient(cx, cy, size * 0.25, cx, cy, size * 0.78);
+        vg.addColorStop(0, "rgba(7,7,9,0.05)");
+        vg.addColorStop(0.5, "rgba(7,7,9,0.12)");
+        vg.addColorStop(1, "rgba(7,7,9,0.55)");
+        ctx.fillStyle = vg;
+        ctx.fillRect(0, 0, w, h);
+      } else {
+        ctx.fillStyle = "rgba(3,3,6,0.35)";
+        ctx.fillRect(0, 0, w, h);
       }
 
       // Rays
@@ -340,6 +370,58 @@ export function LumenCanvas({
         ctx.stroke();
       }
 
+      // Scale overlay (ghost arc wedges)
+      if (scalePts.length > 0 && !pureLight) {
+        for (const p of scalePts) {
+          const a = fifthsAngle(p.fifthsIndex, rot);
+          const half = (Math.PI * 2) / 12 / 2;
+          ctx.beginPath();
+          ctx.arc(cx, cy, midR - 2, a - half * 0.85, a + half * 0.85);
+          ctx.strokeStyle = hsl(p.hue, 70, 60, 0.22 + 0.08 * Math.sin(t * 0.002 + p.fifthsIndex), mode);
+          ctx.lineWidth = 6;
+          ctx.stroke();
+        }
+      }
+
+      // Live resonance pulse rings on detected pitch classes
+      if (resE && resE.length === 12) {
+        for (let i = 0; i < 12; i++) {
+          const e = resE[i] ?? 0;
+          if (e < 0.12) continue;
+          const pc = FIFTHS.find((p) => p.midi === i);
+          if (!pc) continue;
+          const a = fifthsAngle(pc.fifthsIndex, rot);
+          const pt = polar(cx, cy, noteR, a);
+          const r = 10 + e * 22 + pulseAmt * 4;
+          const g = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, r);
+          g.addColorStop(0, hsl(pc.hue, 95, 70, 0.15 + e * 0.45, mode));
+          g.addColorStop(1, hsl(pc.hue, 90, 50, 0, mode));
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Voice-leading trails from previous chord
+      if (trail.length > 0 && tones.length > 0 && geometry) {
+        const n = Math.min(trail.length, tones.length);
+        for (let i = 0; i < n; i++) {
+          const a = trail[i]!;
+          const b = tones[i]!;
+          const p0 = polar(cx, cy, noteR, fifthsAngle(a.fifthsIndex, rot));
+          const p1 = polar(cx, cy, noteR, fifthsAngle(b.fifthsIndex, rot));
+          ctx.strokeStyle = hsl(b.hue, 70, 65, 0.28, mode);
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([2, 5]);
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.quadraticCurveTo(cx, cy, p1.x, p1.y);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+
       const disc = ctx.createRadialGradient(cx, cy, 0, cx, cy, innerR);
       disc.addColorStop(0, pureLight ? "#0a0a12" : "#14141a");
       disc.addColorStop(0.75, "#0c0c11");
@@ -350,6 +432,7 @@ export function LumenCanvas({
       ctx.fill();
 
       const activeIds = new Set(tones.map((p) => p.id));
+      const multiIds = new Set(multi.map((p) => p.id));
 
       for (const p of tones) {
         const a = fifthsAngle(p.fifthsIndex, rot);
@@ -435,8 +518,17 @@ export function LumenCanvas({
           const a = fifthsAngle(p.fifthsIndex, rot);
           const pt = polar(cx, cy, noteR, a);
           const active = activeIds.has(p.id);
-          if (pureLight && !active) continue;
-          const nodeR = active ? 15 + pulseAmt * 4 : 12.5;
+          const selected = multiIds.has(p.id);
+          if (pureLight && !active && !selected) continue;
+          const nodeR = active ? 15 + pulseAmt * 4 : selected ? 14 : 12.5;
+
+          if (selected && !active) {
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, nodeR + 4, 0, Math.PI * 2);
+            ctx.strokeStyle = hsl(p.hue, 80, 70, 0.7, mode);
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
 
           if (active) {
             const ng = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, nodeR * 2.6);
@@ -516,12 +608,13 @@ export function LumenCanvas({
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Center caption: mix as white light when many tones
-      if (tones.length >= 2 && !pureLight && size > 280) {
+      // Center caption: named additive color of the chord mix
+      if (tones.length >= 2 && !pureLight && size > 260) {
+        const mixName = mixColorName(tones);
         ctx.font = `500 ${Math.max(8, size * 0.016)}px system-ui, sans-serif`;
-        ctx.fillStyle = "hsla(0 0% 100% / 0.45)";
+        ctx.fillStyle = "hsla(0 0% 100% / 0.55)";
         ctx.textAlign = "center";
-        ctx.fillText("additive mix", cx, cy + corePulse * 2.1);
+        ctx.fillText(mixName, cx, cy + corePulse * 2.15);
       }
 
       animRef.current = requestAnimationFrame(draw);
@@ -597,11 +690,24 @@ export function LumenCanvas({
   }, [hitTest, onRotationChange, onSelectRoot]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{ touchAction: "none", display: "block", width: "100%", height: "100%" }}
-      aria-label="Color Chord dual wheel — Circle of Fifths mapped to the spectral color wheel"
-    />
+    <div className={className} style={{ position: "relative", width: "100%", height: "100%" }}>
+      <SpectrumGL
+        className="absolute inset-0 h-full w-full"
+        rotation={rotation}
+        pulse={pulse}
+        intensity={intensity}
+        pureLight={pureLight}
+        activeTones={activeTones}
+        resonanceEnergy={resonanceEnergy}
+        tilt={tilt}
+        enabled={shaders}
+      />
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 h-full w-full"
+        style={{ touchAction: "none", display: "block", width: "100%", height: "100%" }}
+        aria-label="ColorChord dual wheel — Circle of Fifths mapped to the spectral color wheel"
+      />
+    </div>
   );
 }
