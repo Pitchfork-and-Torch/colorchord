@@ -45,8 +45,11 @@ import {
   PREVIEW_CLIENT_SECRET,
 } from "./preview";
 
-// Kick (and share) PGLite bootstrap as soon as the auth server module loads.
-void ensureDbReady();
+const inCloudflareWorker =
+  typeof caches !== "undefined" && typeof document === "undefined";
+if (!inCloudflareWorker) {
+  void ensureDbReady();
+}
 
 /**
  * Preview secret must outlive module reloads: PGLite (and its session rows) is
@@ -140,7 +143,9 @@ const grokUserInfoUrl = `${issuerBase}/api/auth/oauth2/userinfo`;
 // schema from `migrations/0001_auth.sql`.
 const database = databaseUrl
   ? new Pool({ connectionString: databaseUrl })
-  : { dialect: pgliteDialect(() => getPglite()), type: "postgres" as const };
+  : inCloudflareWorker
+    ? undefined
+    : { dialect: pgliteDialect(() => getPglite()), type: "postgres" as const };
 
 /** Session token cookie name — also read by the live-preview popup completion page. */
 export const SESSION_TOKEN_COOKIE = "__Host-grok-auth.session_token";
@@ -169,7 +174,17 @@ const grokOAuthPlugin = authConfigured
     })
   : null;
 
-export const auth = betterAuth({
+export const auth = (
+  inCloudflareWorker && !databaseUrl
+    ? {
+        handler: () =>
+          new Response(JSON.stringify({ ok: false }), {
+            status: 404,
+            headers: { "content-type": "application/json" },
+          }),
+        api: {},
+      }
+    : betterAuth({
   baseURL,
   // Deployed apps inject BETTER_AUTH_SECRET. Preview: process-stable secret on
   // globalThis so HMR doesn't invalidate PGLite-backed sessions (see above).
@@ -242,7 +257,8 @@ export const auth = betterAuth({
     // last so it runs after every other plugin's hooks.
     tanstackStartCookies(),
   ],
-});
+})
+) as any;
 
 export function readSessionToken(): string | null {
   return getCookie(SESSION_TOKEN_COOKIE) ?? null;

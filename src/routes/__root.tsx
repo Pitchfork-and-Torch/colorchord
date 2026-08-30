@@ -4,13 +4,11 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { CreatedWithGrokBanner } from "@/components/created-with-grok-banner";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "ColorChord — Living Spectrum";
+const APP_NAME = "ColorChord - Living Spectrum";
 const APP_DESC =
-  "A color is a chord. Circle of Fifths mapped to the spectrum — live resonance, journeys of light, a pocket color organ.";
-const host = import.meta.env.VITE_PUBLIC_HOSTNAME;
-const ogImage = host
-  ? `https://og.grok.me/v1/card.png?host=${encodeURIComponent(host)}&title=${encodeURIComponent(APP_NAME)}`
-  : undefined;
+  "A color is a chord. Circle of Fifths mapped to the spectrum. Live resonance, journeys of light, a pocket color organ.";
+const SITE_URL = "https://play-colorchord.jonbailey.xyz";
+const OG_IMAGE = `${SITE_URL}/og.jpg?v=2.1.0`;
 
 function PwaRegister() {
   useEffect(() => {
@@ -53,19 +51,23 @@ export const Route = createRootRoute({
       { property: "og:title", content: APP_NAME },
       { property: "og:description", content: APP_DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:site_name", content: "ColorChord" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:alt", content: "ColorChord dual harmonic wheel" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@suddenlyjon" },
+      { name: "twitter:creator", content: "@suddenlyjon" },
       { name: "twitter:title", content: APP_NAME },
       { name: "twitter:description", content: APP_DESC },
-      ...(ogImage
-        ? [
-            { property: "og:image", content: ogImage },
-            { property: "og:image:width", content: "1200" },
-            { property: "og:image:height", content: "630" },
-            { name: "twitter:image", content: ogImage },
-          ]
-        : []),
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
+      { rel: "canonical", href: `${SITE_URL}/` },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-192.png" },

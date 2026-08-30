@@ -1,7 +1,7 @@
 {
-  "name": "ColorChord — Living Spectrum",
+  "name": "ColorChord - Living Spectrum",
   "short_name": "ColorChord",
-  "description": "A color is a chord. Circle of Fifths mapped to the spectrum — live resonance, journeys of light.",
+  "description": "A color is a chord. Circle of Fifths mapped to the spectrum. Live resonance, journeys of light.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

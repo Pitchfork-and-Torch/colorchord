@@ -634,9 +634,9 @@ export function LumenApp() {
   };
 
   const shareApp = async () => {
-    const url = typeof window !== "undefined" ? window.location.href : "https://colorchord.grok.me";
+    const url = typeof window !== "undefined" ? window.location.href : "https://play-colorchord.jonbailey.xyz/";
     const data = {
-      title: "ColorChord 2.0 — Living Spectrum",
+      title: "ColorChord 2.1 - Living Spectrum",
       text: "A color is a chord · living light. Circle of Fifths mapped to the spectrum.",
       url,
     };
@@ -693,7 +693,7 @@ export function LumenApp() {
         <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-1.5 p-2 pt-[max(0.4rem,env(safe-area-inset-top))] sm:gap-2 sm:p-5">
           <div className="pointer-events-auto max-w-[min(100%,17.5rem)] rounded-[var(--radius-md)] bg-[var(--color-bg)]/80 px-2 py-1.5 shadow-lg backdrop-blur-md sm:max-w-[min(100%,20rem)] sm:bg-transparent sm:px-0 sm:py-0 sm:shadow-none sm:backdrop-blur-none">
             <p className="text-[0.5rem] font-medium tracking-[0.18em] text-[var(--color-fg-subtle)] uppercase sm:text-[0.6rem]">
-              Living Spectrum · 2.0
+              Living Spectrum · 2.1
             </p>
             <h1 className="mt-0.5 text-[0.95rem] font-semibold tracking-[-0.03em] sm:text-2xl">
               ColorChord
@@ -701,6 +701,12 @@ export function LumenApp() {
             <p className="mt-0.5 hidden text-xs leading-snug text-[var(--color-fg-muted)] sm:block">
               A color is a chord · living light
             </p>
+            <a
+              href="https://colorchord.jonbailey.xyz/"
+              className="mt-1 inline-block text-[0.65rem] font-medium tracking-wide text-[var(--color-fg-subtle)] underline-offset-2 hover:text-[var(--color-fg)] hover:underline sm:text-xs"
+            >
+              Theory landing
+            </a>
             <div className="mt-1 flex flex-wrap items-center gap-1 sm:mt-2 sm:gap-1.5">
               <button
                 type="button"

@@ -3,3 +3,9 @@ node_modules/
 .github_repo
 .env
 .env.*
+.vercel/
+.vercel/output/
+.wrangler/
+dist/
+.DS_Store
+Thumbs.db
