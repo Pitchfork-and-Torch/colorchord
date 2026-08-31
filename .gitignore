@@ -5,6 +5,7 @@ node_modules/
 .env.*
 .vercel/
 .vercel/output/
+.output/
 .wrangler/
 dist/
 .DS_Store
