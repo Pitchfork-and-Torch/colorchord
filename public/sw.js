@@ -1,5 +1,5 @@
-/* ColorChord Living Spectrum — offline shell v3 */
-const CACHE = "colorchord-v3";
+/* ColorChord Living Spectrum — offline shell v4 */
+const CACHE = "colorchord-v4";
 const PRECACHE = ["/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {

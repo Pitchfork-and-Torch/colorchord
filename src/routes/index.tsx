@@ -22,9 +22,9 @@ function Home() {
       >
         <div className="text-center">
           <p className="text-[0.65rem] font-medium tracking-[0.2em] text-[#6b6b76] uppercase">
-            Dual harmonic instrument
+            Color is to light as chord is to sound
           </p>
-          <p className="mt-2 text-lg font-semibold tracking-tight">Color Chord</p>
+          <p className="mt-2 text-lg font-semibold tracking-tight">ColorChord</p>
           <p className="mt-1 text-xs text-[#9b9ba6]">Loading the wheel…</p>
         </div>
       </div>

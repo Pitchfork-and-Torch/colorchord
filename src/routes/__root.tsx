@@ -2,13 +2,29 @@ import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-r
 import { useEffect } from "react";
 import { AuthProvider } from "@/lib/auth/provider";
 import { CreatedWithGrokBanner } from "@/components/created-with-grok-banner";
+import {
+  APP_DESCRIPTION,
+  APP_INSTRUMENT,
+  APP_NAME,
+  APP_VERSION,
+  PLAY_URL,
+} from "@/lib/app-meta";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "ColorChord - Living Spectrum";
-const APP_DESC =
-  "A color is a chord. Circle of Fifths mapped to the spectrum. Live resonance, journeys of light, a pocket color organ.";
-const SITE_URL = "https://play-colorchord.jonbailey.xyz";
-const OG_IMAGE = `${SITE_URL}/og.jpg?v=2.1.0`;
+const OG_IMAGE = `${PLAY_URL}/og.jpg?v=${APP_VERSION}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: APP_NAME,
+  alternateName: APP_INSTRUMENT,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web",
+  url: `${PLAY_URL}/`,
+  description: APP_DESCRIPTION,
+  version: APP_VERSION,
+  isAccessibleForFree: true,
+};
 
 function PwaRegister() {
   useEffect(() => {
@@ -42,32 +58,32 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1",
       },
       { title: APP_NAME },
-      { name: "description", content: APP_DESC },
+      { name: "description", content: APP_DESCRIPTION },
       { name: "theme-color", content: "#070709" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: APP_NAME },
       { property: "og:title", content: APP_NAME },
-      { property: "og:description", content: APP_DESC },
+      { property: "og:description", content: APP_DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: `${SITE_URL}/` },
-      { property: "og:site_name", content: "ColorChord" },
+      { property: "og:url", content: `${PLAY_URL}/` },
+      { property: "og:site_name", content: APP_NAME },
       { property: "og:locale", content: "en_US" },
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:type", content: "image/jpeg" },
-      { property: "og:image:alt", content: "ColorChord dual harmonic wheel" },
+      { property: "og:image:alt", content: "ColorChord wheel: Circle of Fifths mapped to hue" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@suddenlyjon" },
       { name: "twitter:creator", content: "@suddenlyjon" },
       { name: "twitter:title", content: APP_NAME },
-      { name: "twitter:description", content: APP_DESC },
+      { name: "twitter:description", content: APP_DESCRIPTION },
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
+      { rel: "canonical", href: `${PLAY_URL}/` },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-192.png" },
@@ -78,6 +94,7 @@ export const Route = createRootRoute({
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         <CreatedWithGrokBanner />

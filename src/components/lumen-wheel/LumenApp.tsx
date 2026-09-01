@@ -98,6 +98,15 @@ import {
   type VisionMode,
 } from "@/lib/music/theory";
 import { cn } from "@/lib/utils";
+import {
+  APP_DESCRIPTION,
+  APP_INSTRUMENT,
+  APP_NAME,
+  APP_THESIS,
+  APP_VERSION,
+  PLAY_URL,
+  THEORY_URL,
+} from "@/lib/app-meta";
 
 const QUALITIES: ChordQuality[] = [
   "note",
@@ -634,10 +643,10 @@ export function LumenApp() {
   };
 
   const shareApp = async () => {
-    const url = typeof window !== "undefined" ? window.location.href : "https://play-colorchord.jonbailey.xyz/";
+    const url = typeof window !== "undefined" ? window.location.href : `${PLAY_URL}/`;
     const data = {
-      title: "ColorChord 2.1 - Living Spectrum",
-      text: "A color is a chord · living light. Circle of Fifths mapped to the spectrum.",
+      title: `${APP_NAME} ${APP_VERSION}`,
+      text: APP_DESCRIPTION,
       url,
     };
     try {
@@ -656,7 +665,7 @@ export function LumenApp() {
   const statusLine = useMemo(() => {
     if (resonanceOn && micLabel) return `Living · ${micLabel}`;
     if (recording) return `Recording journey · ${journeyCount} events`;
-    if (!activeRoot) return "A color is a chord · tap, ask, or listen";
+    if (!activeRoot) return `${APP_THESIS} · tap, ask, or listen`;
     const q = lastQuality.current;
     if (q === "note") {
       const comp = complementaryPitch(activeRoot);
@@ -670,7 +679,7 @@ export function LumenApp() {
   const blurb = useMemo(() => {
     if (chordAnswer) return chordAnswer;
     if (!activeRoot || activeTones.length === 0) {
-      return "Living Spectrum: fifths = hue. Ask Am7, open Live Resonance, or record a journey of light.";
+      return "Fifths = hue. Ask Am7, open Live Resonance, or record a journey.";
     }
     return theoryBlurb(activeRoot, lastQuality.current, activeTones);
   }, [activeRoot, activeTones, burstKey, chordAnswer]);
@@ -687,22 +696,22 @@ export function LumenApp() {
       className="relative flex h-[calc(100dvh-var(--grok-banner-h,0px))] flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-fg)]"
       style={{ marginTop: "var(--grok-banner-h, 0px)" }}
       role="application"
-      aria-label="ColorChord Living Spectrum dual harmonic instrument"
+      aria-label={`${APP_NAME} ${APP_INSTRUMENT}`}
     >
       {!uiHidden && (
         <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-1.5 p-2 pt-[max(0.4rem,env(safe-area-inset-top))] sm:gap-2 sm:p-5">
           <div className="pointer-events-auto max-w-[min(100%,17.5rem)] rounded-[var(--radius-md)] bg-[var(--color-bg)]/80 px-2 py-1.5 shadow-lg backdrop-blur-md sm:max-w-[min(100%,20rem)] sm:bg-transparent sm:px-0 sm:py-0 sm:shadow-none sm:backdrop-blur-none">
             <p className="text-[0.5rem] font-medium tracking-[0.18em] text-[var(--color-fg-subtle)] uppercase sm:text-[0.6rem]">
-              Living Spectrum · 2.1
+              {APP_INSTRUMENT} · {APP_VERSION}
             </p>
             <h1 className="mt-0.5 text-[0.95rem] font-semibold tracking-[-0.03em] sm:text-2xl">
-              ColorChord
+              {APP_NAME}
             </h1>
             <p className="mt-0.5 hidden text-xs leading-snug text-[var(--color-fg-muted)] sm:block">
-              A color is a chord · living light
+              {APP_THESIS}
             </p>
             <a
-              href="https://colorchord.jonbailey.xyz/"
+              href={THEORY_URL}
               className="mt-1 inline-block text-[0.65rem] font-medium tracking-wide text-[var(--color-fg-subtle)] underline-offset-2 hover:text-[var(--color-fg)] hover:underline sm:text-xs"
             >
               Theory landing
@@ -846,7 +855,7 @@ export function LumenApp() {
                 variant="secondary"
                 size="icon"
                 className="size-10"
-                aria-label="About ColorChord"
+                aria-label={`About ${APP_NAME}`}
                 onClick={() => setInfoOpen(true)}
               >
                 <Info className="size-4" />
@@ -1403,7 +1412,7 @@ export function LumenApp() {
           className="fixed inset-0 z-40 flex items-end justify-center bg-black/65 p-3 sm:items-center"
           role="dialog"
           aria-modal="true"
-          aria-label="About ColorChord Living Spectrum"
+          aria-label={`About ${APP_NAME} ${APP_INSTRUMENT}`}
           onClick={() => setInfoOpen(false)}
         >
           <div
@@ -1411,14 +1420,18 @@ export function LumenApp() {
             onClick={(e) => e.stopPropagation()}
           >
             <p className="text-[0.65rem] font-medium tracking-[0.18em] text-[var(--color-fg-subtle)] uppercase">
-              ColorChord 2.0
+              {APP_NAME} {APP_VERSION}
             </p>
-            <h2 className="mt-1 text-lg font-semibold tracking-tight">Living Spectrum</h2>
+            <h2 className="mt-1 text-lg font-semibold tracking-tight">{APP_INSTRUMENT}</h2>
             <div className="mt-3 space-y-3 text-sm leading-relaxed text-[var(--color-fg-muted)]">
               <p>
+                <strong className="font-medium text-[var(--color-fg)]">{APP_THESIS}</strong> One
+                tone, one wavelength. Mix either, and the Circle of Fifths is the color wheel.
+              </p>
+              <p>
                 <strong className="font-medium text-[var(--color-fg)]">Why this color?</strong> One
-                step on the Circle of Fifths ≈ 30° of hue. C is crimson; each fifth walks the
-                spectrum. Opposite notes are tritones and complementary colors.
+                step on the Circle of Fifths is 30° of hue. C is crimson by design, not by law.
+                Opposite notes are tritones and complementary colors.
               </p>
               <p>
                 <strong className="font-medium text-[var(--color-fg)]">Live Resonance</strong>{" "}
@@ -1427,12 +1440,12 @@ export function LumenApp() {
               </p>
               <p>
                 Record a <strong className="font-medium text-[var(--color-fg)]">Journey</strong>,
-                share a deep link, export JSON or MIDI. Scale overlays and multi-select open the
-                theory playground.
+                share a deep link, export JSON or MIDI. Scale overlays and multi-select are on the
+                wheel.
               </p>
               <p className="text-xs text-[var(--color-fg-subtle)]">
-                Nod to Newton’s color circle and Scriabin’s color organ — presented lightly, as
-                living geometry rather than doctrine.
+                A nod to Newton’s color circle and Scriabin’s color organ — a designed instrument,
+                not doctrine.
               </p>
             </div>
             <div className="mt-5 flex gap-2">

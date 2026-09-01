@@ -12,7 +12,7 @@ function Login() {
       <div className="w-full max-w-sm space-y-5 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
         <div>
           <p className="text-[0.65rem] font-medium tracking-[0.16em] text-[var(--color-fg-subtle)] uppercase">
-            Color Chord
+            ColorChord
           </p>
           <h1 className="mt-1 text-xl font-semibold tracking-tight">Sign in</h1>
           <p className="mt-1 text-sm text-[var(--color-fg-muted)]">
