@@ -1,4 +1,4 @@
-/** High-quality multi-voice Web Audio engine for Color Chord */
+/** Multi-voice Web Audio engine for ColorChord */
 
 import { frequencyOf, type SynthVoice } from "./theory";
 

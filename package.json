@@ -1,5 +1,7 @@
 {
-  "name": "app-builder-workspace",
+  "name": "colorchord",
+  "version": "2.1.1",
+  "description": "Color is to light as chord is to sound. Circle of Fifths mapped to the hue wheel.",
   "private": true,
   "sideEffects": false,
   "type": "module",

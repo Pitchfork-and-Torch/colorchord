@@ -1,8 +1,26 @@
-# ColorChord 2.0 — Living Spectrum
+# ColorChord
 
-A dual harmonic instrument: the **Circle of Fifths** mapped to the **visible spectrum**. One step clockwise is a perfect fifth in pitch and ~30° of hue. Opposite notes are tritones and complementary colors. Additive mixtures of note hues form living chord colors.
+**Color is to light as chord is to sound.** One tone, one wavelength. Mix either, and the Circle of Fifths is the color wheel.
 
-> *A color is a chord · living light*
+Version **2.1.1** — the Living Spectrum instrument (this repo). Patch over the 2.1.0 copy already on the theory landing.
+
+- Instrument: https://play-colorchord.jonbailey.xyz/
+- Theory landing: https://colorchord.jonbailey.xyz/
+
+## What it is
+
+A browser instrument that puts the **Circle of Fifths** and the **hue wheel** on one clock face. One step clockwise is a perfect fifth in pitch and 30° of hue. Opposite notes are tritones and complementary colors. A chord’s color is the circular mean of its tone hues; wide spans name toward white.
+
+This is a designed mapping and an artistic-scientific contention — not a physical law. C = crimson (hue 0°) is a design choice. Relative fifths steps are fixed.
+
+The playable wheel does not require sign-in. Optional account buttons exist; they are not part of the instrument.
+
+## What it is not
+
+- Not a DAW, tuner, or notation editor
+- Not a scientific proof that harmony “is” color
+- Not an AI model — mood suggestions are local heuristics
+- Mic / file resonance is optional and never required to make sound
 
 ## Fifths → hue mapping
 
@@ -21,34 +39,54 @@ A dual harmonic instrument: the **Circle of Fifths** mapped to the **visible spe
 | 10 | B♭/A♯ | 300° | Magenta |
 | 11 | F | 330° | Rose |
 
-Chord colors = circular mean of tone hues (additive-style mix) with span-based naming (close-hue glow → near-white).
+## What you can do here
 
-## Features
-
-- **Play** — tap notes, voicings, voices (pure / pad / organ / piano / strings)
-- **Ask** — type a chord symbol (Am7, G7, F#maj7…) for colors + sound
-- **Live Resonance** — YIN pitch + chroma energies from mic or audio file (optional; never required for sound)
-- **Journey** — record / playback / share deep-link / export JSON & MIDI
+- **Play** — tap notes and voicings; five Web Audio voices (pure / pad / organ / piano / strings)
+- **Ask** — type a chord symbol (`Am7`, `G7`, `F#maj7`…) for colors plus sound
+- **Live Resonance** — optional YIN pitch + chroma from the mic or an audio file
+- **Journey** — record, play back, share a deep link, export JSON or MIDI
 - **Geometry** — scale overlays, multi-select, voice-leading trails, UV/IR rings
-- **Light** — screen beam, flash, hybrid, light show (calm by default)
+- **Light** — screen beam, flash (where the browser allows), hybrid, light show (calm by default)
 - **Suggest** — local mood heuristics (resolve, tension, melancholy…)
-- **Vision** — full / CVD-friendly / luminance modes
-- **PWA** — installable offline shell
+- **Vision** — full, deuteranopia / protanopia-oriented, or luminance
+- **PWA** — installable same-origin offline shell for the app chrome
+
+## FAQ
+
+### What is ColorChord?
+
+A dual map of harmony geometry onto color. This repository is the Living Spectrum instrument. The essay and 3D wheel live on the [theory landing](https://colorchord.jonbailey.xyz/).
+
+### Color is to light as chord is to sound — what does that mean?
+
+A single tone is treated like a single wavelength seed. Simultaneous tones (a chord) are treated like mixed light (a color). The fifths ring and the hue circle share one face so a tritone sits opposite its complement.
+
+### Is the mapping unique or scientific law?
+
+No. It is a designed instrument. Fifths steps are fixed; rotating C onto crimson is a choice, not a discovery.
+
+### Where is the API?
+
+`GET /api/chord-color?q=Am7` on the instrument origin → JSON for tools and lookups. Same mapping the wheel uses. No key required.
 
 ## API
 
-`GET /api/chord-color?q=Am7` → JSON color mapping for tools and Grok.
+`GET /api/chord-color?q=Am7` → JSON color mapping.
 
 ## Stack
 
-TanStack Start, React 19, Vite, Tailwind v4, Web Audio API, Canvas 2D, Vibration API.
+TanStack Start, React 19, Vite, Tailwind v4, Web Audio API, Canvas 2D, optional WebGL field, Vibration API.
 
 ## Local
 
 ```bash
-npm run dev      # 0.0.0.0:8080
+npm run dev
 npm run build
 npm run typecheck
 ```
 
-Core experience is pure client-side. No login required.
+The instrument itself is client-side. Sign-in is optional and unused by play, ask, resonance, journey, light, or the color API.
+
+## License
+
+MIT. See `LICENSE`.

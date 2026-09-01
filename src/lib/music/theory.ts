@@ -1,4 +1,4 @@
-/** Circle of fifths + spectral color dual mapping — core of Color Chord */
+/** Circle of fifths + spectral color dual mapping — core of ColorChord */
 
 export type NoteId =
   | "C"
@@ -601,7 +601,7 @@ export function chordColorLookup(raw: string): ChordColorResult {
 
   let answer: string;
   if (quality === "note") {
-    answer = `${symbol} is ${root.colorName} on Color Chord (~${root.wavelengthNm} nm, hue ${root.hue}°).`;
+    answer = `${symbol} is ${root.colorName} on ColorChord (~${root.wavelengthNm} nm, hue ${root.hue}°).`;
   } else if (tones.length === 1) {
     answer = `${symbol} maps to ${colors[0]}.`;
   } else {
