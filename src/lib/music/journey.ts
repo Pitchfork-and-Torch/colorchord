@@ -165,7 +165,17 @@ export function playJourney(
   };
 }
 
-/** Minimal type-0 MIDI of roots as whole notes (export heuristic). */
+const MIDI_PPQ = 0x01e0; // 480, must match the division bytes in the MThd header below
+const MIDI_US_PER_QUARTER = 500_000; // 120 bpm
+const MIDI_TICKS_PER_MS = MIDI_PPQ / (MIDI_US_PER_QUARTER / 1000);
+const MIDI_WHOLE_NOTE_TICKS = MIDI_PPQ * 4;
+
+/**
+ * Minimal type-0 MIDI of roots (export heuristic). Each root sounds until the
+ * next event, capped at a whole note; the last root holds a whole note.
+ * Event timestamps are placed on an absolute tick timeline so the file plays
+ * back at the recorded wall-clock spacing.
+ */
 export function exportJourneyMidi(snap: JourneySnapshot): Uint8Array {
   // Very small MIDI file writer for pitch-class events
   const track: number[] = [];
@@ -180,21 +190,38 @@ export function exportJourneyMidi(snap: JourneySnapshot): Uint8Array {
     }
     track.push(...bytes);
   };
-  let lastT = 0;
-  const ticksPerMs = 0.48; // ~480 ppq at 120bpm roughly for ms
-  for (const ev of snap.events) {
+
+  // Explicit tempo so players do not have to assume the 120 bpm default.
+  pushVar(0);
+  track.push(
+    0xff,
+    0x51,
+    0x03,
+    (MIDI_US_PER_QUARTER >> 16) & 0xff,
+    (MIDI_US_PER_QUARTER >> 8) & 0xff,
+    MIDI_US_PER_QUARTER & 0xff,
+  );
+
+  const events = snap.events;
+  let cursor = 0; // absolute tick of the last written event
+  for (let i = 0; i < events.length; i++) {
+    const ev = events[i]!;
     const root = FIFTHS.find((p) => p.id === ev.rootId) ?? FIFTHS[0]!;
     const note = 60 + root.midi;
-    const delta = Math.max(0, Math.round((ev.t - lastT) * ticksPerMs));
-    lastT = ev.t;
-    pushVar(delta);
+    const onTick = Math.max(cursor, Math.round(ev.t * MIDI_TICKS_PER_MS));
+    const next = events[i + 1];
+    const gap = next ? Math.round(next.t * MIDI_TICKS_PER_MS) - onTick : MIDI_WHOLE_NOTE_TICKS;
+    const duration = Math.max(1, Math.min(MIDI_WHOLE_NOTE_TICKS, gap));
+    pushVar(onTick - cursor);
     track.push(0x90, note, 0x50); // note on
-    pushVar(120);
+    pushVar(duration);
     track.push(0x80, note, 0x00); // note off
+    cursor = onTick + duration;
   }
   pushVar(0);
   track.push(0xff, 0x2f, 0x00); // end of track
 
+  // MThd, length 6, format 0, one track, division 0x01e0 = MIDI_PPQ (480).
   const header = [
     0x4d, 0x54, 0x68, 0x64, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x01, 0x01, 0xe0,
   ];
