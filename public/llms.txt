@@ -1,0 +1,17 @@
+# ColorChord Living Spectrum
+> Circle of fifths mapped to the color wheel. Live YIN resonance. Not a DAW.
+
+- Play: https://play-colorchord.jonbailey.xyz/
+- Landing: https://colorchord.jonbailey.xyz/
+- Version: 2.2.0
+- GitHub: https://github.com/Pitchfork-and-Torch/colorchord
+
+## Quick answers
+- What is ColorChord? A browser instrument: 12 fifths, 30 deg hue steps, C is crimson.
+- Is it a DAW? No. It is a spectrum organ / chord-color toy.
+- Pitch detect? YIN, voiced band 50-2000 Hz.
+- CM7? Major seventh. Cm7 is minor seventh.
+
+## Crawling
+- Sitemap: https://play-colorchord.jonbailey.xyz/sitemap.xml
+- Landing llms: https://colorchord.jonbailey.xyz/llms.txt
