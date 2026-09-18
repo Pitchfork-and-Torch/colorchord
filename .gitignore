@@ -1,0 +1,12 @@
+node_modules/
+.project_id
+.github_repo
+.env
+.env.*
+.vercel/
+.vercel/output/
+.output/
+.wrangler/
+dist/
+.DS_Store
+Thumbs.db
