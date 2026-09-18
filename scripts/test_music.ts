@@ -122,6 +122,20 @@ ok("parse G major 9 words", !!gMaj9 && gMaj9.quality === "maj9" && gMaj9.root.id
 const stillDom9 = parseChordSymbol("C9");
 ok("parse C9 still dom9", !!stillDom9 && stillDom9.quality === "dom9");
 
+
+const cm9 = parseChordSymbol("Cm9");
+ok("parse Cm9", !!cm9 && cm9.quality === "min9" && cm9.root.id === "C");
+ok(
+  "min9 midis C",
+  !!cm9 && JSON.stringify(chordMidis(cm9.root.midi, "min9")) === JSON.stringify([0, 3, 7, 10, 2]),
+);
+const aMin9 = parseChordSymbol("A minor 9");
+ok("parse A minor 9 words", !!aMin9 && aMin9.quality === "min9" && aMin9.root.id === "A");
+const stillMaj9 = parseChordSymbol("Cmaj9");
+ok("parse Cmaj9 still maj9", !!stillMaj9 && stillMaj9.quality === "maj9");
+const stillDom9b = parseChordSymbol("C9");
+ok("parse C9 still dom9 after min9", !!stillDom9b && stillDom9b.quality === "dom9");
+
 if (fails) {
   console.log("MUSIC FAIL", fails);
   process.exit(1);
