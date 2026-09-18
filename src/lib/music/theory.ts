@@ -21,6 +21,7 @@ export type ChordQuality =
   | "dom7"
   | "maj7"
   | "min7"
+  | "m7b5"
   | "sus4"
   | "dim"
   | "aug";
@@ -87,6 +88,9 @@ export function chordMidis(rootMidi: number, quality: ChordQuality): number[] {
       return [r, (r + 4) % 12, (r + 7) % 12, (r + 11) % 12];
     case "min7":
       return [r, (r + 3) % 12, (r + 7) % 12, (r + 10) % 12];
+    case "m7b5":
+      // Half-diminished seventh: m3 + d5 + m7 (ø / m7b5)
+      return [r, (r + 3) % 12, (r + 6) % 12, (r + 10) % 12];
     case "sus4":
       return [r, (r + 5) % 12, (r + 7) % 12];
     case "dim":
@@ -288,6 +292,7 @@ export const QUALITY_LABELS: Record<ChordQuality, string> = {
   dom7: "Dom 7",
   maj7: "Maj 7",
   min7: "Min 7",
+  m7b5: "Half-dim 7",
   sus4: "Sus 4",
   dim: "Dim",
   aug: "Aug",
@@ -349,6 +354,7 @@ export function romanDegree(step: number, quality?: ChordQuality): string {
   if (q === "dom7") return majors[s]! + "⁷";
   if (q === "maj7") return majors[s]! + "Δ";
   if (q === "min7") return minors[s]! + "⁷";
+  if (q === "m7b5") return minors[s]! + "ø⁷";
   if (q === "sus4") return majors[s]! + "sus";
   if (q === "minor") return minors[s]!;
   return majors[s]!;
@@ -392,6 +398,9 @@ export function theoryBlurb(root: PitchClass, quality: ChordQuality, tones: Pitc
   }
   if (quality === "sus4") {
     return `Sus4 ${labels} freezes the third — neither major warmth nor minor cool. Open fifths geometry; colors ${names} hang between resolution paths. Center light ≈ ${mix}.`;
+  }
+  if (quality === "m7b5") {
+    return `Half-dim 7 ${labels}: minor triad with a flattened fifth plus minor seventh (ø / m7♭5). Tritone tension with a cooler mix than full diminished. Hue span ~${Math.round(span)}° — center reads as ${mix}. ${names}.`;
   }
   if (quality === "dim") {
     return `Dim ${labels}: minor thirds stack into high tension. Colors sit at unstable intervals (span ~${Math.round(span)}°). Visually restless — center reads as ${mix}. ${names}.`;
@@ -510,6 +519,14 @@ function parseQualityToken(token: string): ChordQuality | null {
   if (t === "7" || t === "dom" || t === "dom7" || t === "dominant" || t === "dominant7") return "dom7";
   if (t === "maj7" || t === "major7" || t === "ma7" || t === "j7") return "maj7";
   if (t === "m7" || t === "min7" || t === "minor7" || t === "-7" || t === "mi7") return "min7";
+  if (
+    t === "m7b5" ||
+    t === "min7b5" ||
+    t === "halfdim" ||
+    t === "halfdiminished" ||
+    t === "ø7"
+  )
+    return "m7b5";
   if (t === "sus" || t === "sus4" || t === "suspension") return "sus4";
   if (t === "dim" || t === "diminished" || t === "o" || t === "mb5") return "dim";
   if (t === "aug" || t === "augmented" || t === "+" || t === "+5") return "aug";
@@ -572,11 +589,13 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
               ? `${root.label}maj7`
               : quality === "min7"
                 ? `${root.label}m7`
-                : quality === "sus4"
-                  ? `${root.label}sus4`
-                  : quality === "dim"
-                    ? `${root.label}dim`
-                    : `${root.label}aug`;
+                : quality === "m7b5"
+                  ? `${root.label}m7b5`
+                  : quality === "sus4"
+                    ? `${root.label}sus4`
+                    : quality === "dim"
+                      ? `${root.label}dim`
+                      : `${root.label}aug`;
 
   return { root, quality, symbol, tones };
 }
@@ -590,7 +609,7 @@ export function chordColorLookup(raw: string): ChordColorResult {
       ok: false,
       input,
       error: "Could not parse that chord.",
-      hint: "Try symbols like C, Am, F#maj7, Bb7, Dsus4, E°, G+.",
+      hint: "Try symbols like C, Am, F#maj7, Bb7, Dsus4, E°, G+, Cø, Am7b5.",
     };
   }
 

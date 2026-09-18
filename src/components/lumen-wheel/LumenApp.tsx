@@ -115,6 +115,7 @@ const QUALITIES: ChordQuality[] = [
   "dom7",
   "maj7",
   "min7",
+  "m7b5",
   "sus4",
   "dim",
   "aug",
