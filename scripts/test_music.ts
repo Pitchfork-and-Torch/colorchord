@@ -79,6 +79,16 @@ for (let i = 0; i < 12; i++) {
 }
 ok("chroma peak is A (9)", peakPc === 9, `pc=${peakPc}`);
 
+
+const am6 = parseChordSymbol("Am6");
+ok("parse Am6", !!am6 && am6.quality === "min6" && am6.root.id === "A");
+ok(
+  "min6 midis A",
+  !!am6 && JSON.stringify(chordMidis(am6.root.midi, "min6")) === JSON.stringify([9, 0, 4, 6]),
+);
+const c6 = parseChordSymbol("C6");
+ok("parse C6 still maj6", !!c6 && c6.quality === "maj6");
+
 if (fails) {
   console.log("MUSIC FAIL", fails);
   process.exit(1);
