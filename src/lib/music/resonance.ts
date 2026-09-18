@@ -58,6 +58,7 @@ function estimateChord(active: { pitch: PitchClass; energy: number }[]): ChordQu
   if (has(3) && has(7) && has(10)) return "min7";
   if (has(4) && has(7) && has(9)) return "maj6";
   if (has(3) && has(7) && has(9)) return "min6";
+  if (has(4) && has(7) && has(2)) return "add9";
   if (has(4) && has(7)) return "major";
   if (has(3) && has(7)) return "minor";
   if (has(5) && has(7)) return "sus4";
@@ -256,7 +257,7 @@ export async function stopResonance(): Promise<void> {
 /** Match template chord midis against active pcs for UI helpers. */
 export function matchQualityTemplate(pcs: number[], root: number): ChordQuality {
   const set = new Set(pcs.map((p) => (p - root + 12) % 12));
-  const qualities: ChordQuality[] = ["maj7", "dom7", "min7", "maj6", "min6", "major", "minor", "sus4", "dim", "aug"];
+  const qualities: ChordQuality[] = ["maj7", "dom7", "min7", "maj6", "min6", "add9", "major", "minor", "sus4", "dim", "aug"];
   for (const q of qualities) {
     const need = chordMidis(root, q);
     if (need.every((m) => set.has((m - root + 12) % 12))) return q;

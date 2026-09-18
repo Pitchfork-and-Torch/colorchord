@@ -89,6 +89,15 @@ ok(
 const c6 = parseChordSymbol("C6");
 ok("parse C6 still maj6", !!c6 && c6.quality === "maj6");
 
+const cadd9 = parseChordSymbol("Cadd9");
+ok("parse Cadd9", !!cadd9 && cadd9.quality === "add9" && cadd9.root.id === "C");
+ok(
+  "add9 midis C",
+  !!cadd9 && JSON.stringify(chordMidis(cadd9.root.midi, "add9")) === JSON.stringify([0, 4, 7, 2]),
+);
+const dAdd9 = parseChordSymbol("D add 9");
+ok("parse D add 9 words", !!dAdd9 && dAdd9.quality === "add9" && dAdd9.root.id === "D");
+
 if (fails) {
   console.log("MUSIC FAIL", fails);
   process.exit(1);
