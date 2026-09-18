@@ -1,0 +1,31 @@
+name: Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - env:
+          NITRO_PRESET: cloudflare_pages
+          VITE_AUTH_ENABLED: "false"
+        run: npx vite build
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 75c71da18eeb801b3408c812742d6590
+          command: pages deploy dist --project-name=colorchord-play-jonbailey
