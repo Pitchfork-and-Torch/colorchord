@@ -19,6 +19,7 @@ export type ChordQuality =
   | "major"
   | "minor"
   | "dom7"
+  | "dom9"
   | "maj7"
   | "min7"
   | "maj6"
@@ -86,6 +87,8 @@ export function chordMidis(rootMidi: number, quality: ChordQuality): number[] {
       return [r, (r + 3) % 12, (r + 7) % 12];
     case "dom7":
       return [r, (r + 4) % 12, (r + 7) % 12, (r + 10) % 12];
+    case "dom9":
+      return [r, (r + 4) % 12, (r + 7) % 12, (r + 10) % 12, (r + 2) % 12];
     case "maj7":
       return [r, (r + 4) % 12, (r + 7) % 12, (r + 11) % 12];
     case "min7":
@@ -295,6 +298,7 @@ export const QUALITY_LABELS: Record<ChordQuality, string> = {
   major: "Major",
   minor: "Minor",
   dom7: "Dom 7",
+  dom9: "Dom 9",
   maj7: "Maj 7",
   min7: "Min 7",
   maj6: "Maj 6",
@@ -359,6 +363,7 @@ export function romanDegree(step: number, quality?: ChordQuality): string {
   if (q === "dim") return dims[s]!;
   if (q === "aug") return majors[s]! + "+";
   if (q === "dom7") return majors[s]! + "⁷";
+  if (q === "dom9") return majors[s]! + "⁹";
   if (q === "maj7") return majors[s]! + "Δ";
   if (q === "min7") return minors[s]! + "⁷";
   if (q === "sus4") return majors[s]! + "sus";
@@ -398,6 +403,9 @@ export function theoryBlurb(root: PitchClass, quality: ChordQuality, tones: Pitc
   }
   if (quality === "dom7") {
     return `Dominant 7 ${labels} wants to fall a fifth (resolve). Tritone tension inside the chord mirrors complementary-color pull (${comp.label} opposite ${root.label}). Wide hue span (~${Math.round(span)}°) = dissonance you can see. Center light ≈ ${mix}.`;
+  }
+  if (quality === "dom9") {
+    return `Dominant 9 ${labels}: dominant seventh plus the ninth - brighter pull to resolve, wider color spread (~${Math.round(span)}°). Center light ≈ ${mix}. ${names}.`;
   }
   if (quality === "maj7") {
     return `Maj7 ${labels}: stacked thirds = stacked near-hues. Soft luminous wash of ${mix}. Adjacent fifths colors ${names}.`;
@@ -531,6 +539,7 @@ function parseQualityToken(token: string): ChordQuality | null {
   const t = token.toLowerCase().replace(/\s+/g, "");
   if (t === "" || t === "maj" || t === "major" || t === "ma") return "major";
   if (t === "m" || t === "min" || t === "minor" || t === "-" || t === "mi") return "minor";
+  if (t === "9" || t === "dom9" || t === "dominant9") return "dom9";
   if (t === "7" || t === "dom" || t === "dom7" || t === "dominant" || t === "dominant7") return "dom7";
   if (t === "maj7" || t === "major7" || t === "ma7" || t === "j7") return "maj7";
   if (t === "m7" || t === "min7" || t === "minor7" || t === "-7" || t === "mi7") return "min7";
@@ -559,6 +568,7 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
     const rest = words[3]!.toLowerCase().trim();
     if (/^(major|maj)$/.test(rest)) qualToken = "maj";
     else if (/^(minor|min)$/.test(rest)) qualToken = "m";
+    else if (/^(dominant\s*9|dom\s*9|9)$/.test(rest)) qualToken = "9";
     else if (/^(dominant\s*7|dom\s*7|7)$/.test(rest)) qualToken = "7";
     else if (/^(major\s*7|maj\s*7)$/.test(rest)) qualToken = "maj7";
     else if (/^(minor\s*7|min\s*7)$/.test(rest)) qualToken = "m7";
@@ -598,7 +608,9 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
           ? `${root.label}m`
           : quality === "dom7"
             ? `${root.label}7`
-            : quality === "maj7"
+            : quality === "dom9"
+              ? `${root.label}9`
+              : quality === "maj7"
               ? `${root.label}maj7`
               : quality === "min7"
                 ? `${root.label}m7`
@@ -626,7 +638,7 @@ export function chordColorLookup(raw: string): ChordColorResult {
       ok: false,
       input,
       error: "Could not parse that chord.",
-      hint: "Try symbols like C, Am, F#maj7, Bb7, C6, Am6, Cadd9, Dsus4, E°, G+.",
+      hint: "Try symbols like C, Am, F#maj7, Bb7, C9, C6, Am6, Cadd9, Dsus4, E°, G+.",
     };
   }
 

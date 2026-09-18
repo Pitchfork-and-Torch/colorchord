@@ -98,6 +98,18 @@ ok(
 const dAdd9 = parseChordSymbol("D add 9");
 ok("parse D add 9 words", !!dAdd9 && dAdd9.quality === "add9" && dAdd9.root.id === "D");
 
+
+const c9 = parseChordSymbol("C9");
+ok("parse C9", !!c9 && c9.quality === "dom9" && c9.root.id === "C");
+ok(
+  "dom9 midis C",
+  !!c9 && JSON.stringify(chordMidis(c9.root.midi, "dom9")) === JSON.stringify([0, 4, 7, 10, 2]),
+);
+const gDom9 = parseChordSymbol("G dominant 9");
+ok("parse G dominant 9 words", !!gDom9 && gDom9.quality === "dom9" && gDom9.root.id === "G");
+const still7 = parseChordSymbol("G7");
+ok("parse G7 still dom7", !!still7 && still7.quality === "dom7");
+
 if (fails) {
   console.log("MUSIC FAIL", fails);
   process.exit(1);
