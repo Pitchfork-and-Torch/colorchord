@@ -1,0 +1,12 @@
+# ColorChord Play
+
+> Play color as chord. A living spectrum instrument.
+
+- URL: https://play-colorchord.jonbailey.xyz/
+- Version: 2.2.0
+- Maker: Jon Bailey (https://jonbailey.xyz/)
+- X: https://x.com/SuddenlyJon
+
+## Related
+
+- Hub: https://jonbailey.xyz/

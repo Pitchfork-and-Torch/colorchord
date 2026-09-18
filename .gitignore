@@ -1,0 +1,16 @@
+node_modules/
+.project_id
+.github_repo
+.env
+.env.*
+.vercel/
+.vercel/output/
+.output/
+.wrangler/
+.nitro/
+.tanstack/
+.orbit/
+.grok/
+dist/
+.DS_Store
+Thumbs.db
