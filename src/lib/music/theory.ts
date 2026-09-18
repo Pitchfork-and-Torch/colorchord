@@ -474,6 +474,8 @@ const NOTE_ALIASES: Record<string, number> = {
   "b♭": 10,
   "a♯": 10,
   b: 11,
+  // B♯ is enharmonic to C (parallel to E♯→F already listed above).
+  "b#": 0,
   cb: 11,
 };
 
