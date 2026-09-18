@@ -17,7 +17,7 @@ export const Route = createFileRoute("/api/chord-color")({
               ok: false,
               error: "Missing chord query.",
               hint: "Use ?q=Am7 or ?chord=F%23maj7",
-              examples: ["C", "Am", "G7", "C9", "Cmaj9", "Cm9", "F#maj7", "Bb", "C6", "Am6", "Cadd9", "Dsus4", "E dim"],
+              examples: ["C", "Am", "G7", "C9", "Cmaj9", "Cm9", "F#maj7", "Bb", "C6", "Am6", "Cadd9", "C5", "Dsus4", "E dim"],
             },
             { status: 400 },
           );

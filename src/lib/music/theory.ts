@@ -27,6 +27,7 @@ export type ChordQuality =
   | "maj6"
   | "min6"
   | "add9"
+  | "power"
   | "sus4"
   | "dim"
   | "aug";
@@ -105,6 +106,8 @@ export function chordMidis(rootMidi: number, quality: ChordQuality): number[] {
       return [r, (r + 3) % 12, (r + 7) % 12, (r + 9) % 12];
     case "add9":
       return [r, (r + 4) % 12, (r + 7) % 12, (r + 2) % 12];
+    case "power":
+      return [r, (r + 7) % 12];
     case "sus4":
       return [r, (r + 5) % 12, (r + 7) % 12];
     case "dim":
@@ -312,6 +315,7 @@ export const QUALITY_LABELS: Record<ChordQuality, string> = {
   maj6: "Maj 6",
   min6: "Min 6",
   add9: "Add 9",
+  power: "Power",
   sus4: "Sus 4",
   dim: "Dim",
   aug: "Aug",
@@ -380,6 +384,7 @@ export function romanDegree(step: number, quality?: ChordQuality): string {
   if (q === "maj6") return majors[s]! + "⁶";
   if (q === "min6") return minors[s]! + "⁶";
   if (q === "add9") return majors[s]! + "add9";
+  if (q === "power") return majors[s]! + "⁵";
   if (q === "minor") return minors[s]!;
   return majors[s]!;
 }
@@ -437,6 +442,9 @@ export function theoryBlurb(root: PitchClass, quality: ChordQuality, tones: Pitc
   }
   if (quality === "add9") {
     return `Add9 ${labels}: major triad plus the ninth - bright open color without seventh tension. Hue span ~${Math.round(span)}°; center light ≈ ${mix}. ${names}.`;
+  }
+  if (quality === "power") {
+    return `Power ${labels}: root + fifth only - open fifths color with no third to warm or cool. Hue span ~${Math.round(span)}°; center light ≈ ${mix}. ${names}.`;
   }
   if (quality === "sus4") {
     return `Sus4 ${labels} freezes the third - neither major warmth nor minor cool. Open fifths geometry; colors ${names} hang between resolution paths. Center light ≈ ${mix}.`;
@@ -564,6 +572,7 @@ function parseQualityToken(token: string): ChordQuality | null {
   if (t === "m6" || t === "min6" || t === "minor6" || t === "-6" || t === "mi6") return "min6";
   if (t === "6" || t === "maj6" || t === "major6" || t === "add6") return "maj6";
   if (t === "add9" || t === "add9th" || t === "(add9)") return "add9";
+  if (t === "5" || t === "power" || t === "pow" || t === "no3") return "power";
   if (t === "sus" || t === "sus4" || t === "suspension") return "sus4";
   if (t === "dim" || t === "diminished" || t === "o" || t === "mb5") return "dim";
   if (t === "aug" || t === "augmented" || t === "+" || t === "+5") return "aug";
@@ -598,6 +607,7 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
     else if (/^(major\s*6|maj\s*6|6)$/.test(rest)) qualToken = "maj6";
     else if (/^(minor\s*6|min\s*6|m\s*6)$/.test(rest)) qualToken = "min6";
     else if (/^(add\s*9|add9)$/.test(rest)) qualToken = "add9";
+    else if (/^(power|5|no\s*3)$/.test(rest)) qualToken = "5";
     else qualToken = rest.replace(/\s+/g, "");
   } else {
     const m = cleaned.match(/^([A-Ga-g])([#b]?)(.*)$/);
@@ -645,11 +655,13 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
                     ? `${root.label}m6`
                     : quality === "add9"
                       ? `${root.label}add9`
-                      : quality === "sus4"
-                        ? `${root.label}sus4`
-                        : quality === "dim"
-                          ? `${root.label}dim`
-                          : `${root.label}aug`;
+                      : quality === "power"
+                        ? `${root.label}5`
+                        : quality === "sus4"
+                          ? `${root.label}sus4`
+                          : quality === "dim"
+                            ? `${root.label}dim`
+                            : `${root.label}aug`;
 
   return { root, quality, symbol, tones };
 }
@@ -663,7 +675,7 @@ export function chordColorLookup(raw: string): ChordColorResult {
       ok: false,
       input,
       error: "Could not parse that chord.",
-      hint: "Try symbols like C, Am, F#maj7, Bb7, C9, Cmaj9, Cm9, C6, Am6, Cadd9, Dsus4, E°, G+.",
+      hint: "Try symbols like C, Am, F#maj7, Bb7, C9, Cmaj9, Cm9, C6, Am6, Cadd9, C5, Dsus4, E°, G+.",
     };
   }
 

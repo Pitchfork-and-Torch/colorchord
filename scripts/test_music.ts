@@ -136,6 +136,19 @@ ok("parse Cmaj9 still maj9", !!stillMaj9 && stillMaj9.quality === "maj9");
 const stillDom9b = parseChordSymbol("C9");
 ok("parse C9 still dom9 after min9", !!stillDom9b && stillDom9b.quality === "dom9");
 
+
+
+const c5 = parseChordSymbol("C5");
+ok("parse C5", !!c5 && c5.quality === "power" && c5.root.id === "C");
+ok(
+  "power midis C",
+  !!c5 && JSON.stringify(chordMidis(c5.root.midi, "power")) === JSON.stringify([0, 7]),
+);
+const gPower = parseChordSymbol("G power");
+ok("parse G power words", !!gPower && gPower.quality === "power" && gPower.root.id === "G");
+const stillAdd9 = parseChordSymbol("Cadd9");
+ok("parse Cadd9 still add9 after power", !!stillAdd9 && stillAdd9.quality === "add9");
+
 if (fails) {
   console.log("MUSIC FAIL", fails);
   process.exit(1);
