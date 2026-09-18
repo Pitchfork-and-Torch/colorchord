@@ -24,6 +24,7 @@ export type ChordQuality =
   | "m7b5"
   | "sus4"
   | "dim"
+  | "dim7"
   | "aug";
 
 export type SynthVoice = "pure" | "pad" | "organ" | "piano" | "strings";
@@ -95,6 +96,9 @@ export function chordMidis(rootMidi: number, quality: ChordQuality): number[] {
       return [r, (r + 5) % 12, (r + 7) % 12];
     case "dim":
       return [r, (r + 3) % 12, (r + 6) % 12];
+    case "dim7":
+      // Fully diminished seventh: stacked minor thirds (m3 + d5 + d7)
+      return [r, (r + 3) % 12, (r + 6) % 12, (r + 9) % 12];
     case "aug":
       return [r, (r + 4) % 12, (r + 8) % 12];
     default:
@@ -295,6 +299,7 @@ export const QUALITY_LABELS: Record<ChordQuality, string> = {
   m7b5: "Half-dim 7",
   sus4: "Sus 4",
   dim: "Dim",
+  dim7: "Dim 7",
   aug: "Aug",
 };
 
@@ -355,6 +360,7 @@ export function romanDegree(step: number, quality?: ChordQuality): string {
   if (q === "maj7") return majors[s]! + "Δ";
   if (q === "min7") return minors[s]! + "⁷";
   if (q === "m7b5") return minors[s]! + "ø⁷";
+  if (q === "dim7") return dims[s]! + "⁷";
   if (q === "sus4") return majors[s]! + "sus";
   if (q === "minor") return minors[s]!;
   return majors[s]!;
@@ -404,6 +410,9 @@ export function theoryBlurb(root: PitchClass, quality: ChordQuality, tones: Pitc
   }
   if (quality === "dim") {
     return `Dim ${labels}: minor thirds stack into high tension. Colors sit at unstable intervals (span ~${Math.round(span)}°). Visually restless — center reads as ${mix}. ${names}.`;
+  }
+  if (quality === "dim7") {
+    return `Dim 7 ${labels}: four stacked minor thirds (fully diminished). Symmetric tension around the ring — hue span ~${Math.round(span)}°, center reads as ${mix}. ${names}.`;
   }
   if (quality === "aug") {
     return `Aug ${labels}: major thirds trisect the octave and nearly trisect the color circle — symmetric, bright, unresolved. ${names}. Center light ≈ ${mix}.`;
@@ -528,6 +537,15 @@ function parseQualityToken(token: string): ChordQuality | null {
   )
     return "m7b5";
   if (t === "sus" || t === "sus4" || t === "suspension") return "sus4";
+  // dim7 before dim / o so E°7 (→ Edim7) and Co7 parse as fully diminished
+  if (
+    t === "dim7" ||
+    t === "o7" ||
+    t === "diminished7" ||
+    t === "fulldim" ||
+    t === "fulldiminished"
+  )
+    return "dim7";
   if (t === "dim" || t === "diminished" || t === "o" || t === "mb5") return "dim";
   if (t === "aug" || t === "augmented" || t === "+" || t === "+5") return "aug";
   if (t === "note" || t === "tone" || t === "single" || t === "unison") return "note";
@@ -552,6 +570,7 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
     else if (/^(dominant\s*7|dom\s*7|7)$/.test(rest)) qualToken = "7";
     else if (/^(major\s*7|maj\s*7)$/.test(rest)) qualToken = "maj7";
     else if (/^(minor\s*7|min\s*7)$/.test(rest)) qualToken = "m7";
+    else if (/^(diminished\s*7|dim\s*7)$/.test(rest)) qualToken = "dim7";
     else if (/^(diminished|dim)$/.test(rest)) qualToken = "dim";
     else if (/^(augmented|aug)$/.test(rest)) qualToken = "aug";
     else if (/^(sus|sus4)$/.test(rest)) qualToken = "sus4";
@@ -595,7 +614,9 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
                     ? `${root.label}sus4`
                     : quality === "dim"
                       ? `${root.label}dim`
-                      : `${root.label}aug`;
+                      : quality === "dim7"
+                        ? `${root.label}dim7`
+                        : `${root.label}aug`;
 
   return { root, quality, symbol, tones };
 }
@@ -609,7 +630,7 @@ export function chordColorLookup(raw: string): ChordColorResult {
       ok: false,
       input,
       error: "Could not parse that chord.",
-      hint: "Try symbols like C, Am, F#maj7, Bb7, Dsus4, E°, G+, Cø, Am7b5.",
+      hint: "Try symbols like C, Am, F#maj7, Bb7, Dsus4, E°, E°7, G+, Cø, Am7b5.",
     };
   }
 

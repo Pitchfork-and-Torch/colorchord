@@ -118,6 +118,7 @@ const QUALITIES: ChordQuality[] = [
   "m7b5",
   "sus4",
   "dim",
+  "dim7",
   "aug",
 ];
 
@@ -304,7 +305,7 @@ export function LumenApp() {
       const kind =
         q === "note"
           ? "note"
-          : q === "dom7" || q === "dim" || q === "aug"
+          : q === "dom7" || q === "dim" || q === "dim7" || q === "aug"
             ? q === "dom7"
               ? "dominant"
               : "dissonant"
