@@ -517,6 +517,8 @@ function normalizeChordInput(raw: string): string {
     .replace(/♭/g, "b")
     .replace(/Δ/g, "maj")
     .replace(/°/g, "dim")
+    // ø7 / ø 7 before bare ø so Cø7 → Cm7b5 (not Cm7b57)
+    .replace(/ø\s*7/g, "m7b5")
     .replace(/ø/g, "m7b5")
     .replace(/\s+/g, " ");
 }
@@ -571,6 +573,8 @@ export function parseChordSymbol(raw: string): ParsedChord | null {
     else if (/^(major\s*7|maj\s*7)$/.test(rest)) qualToken = "maj7";
     else if (/^(minor\s*7|min\s*7)$/.test(rest)) qualToken = "m7";
     else if (/^(diminished\s*7|dim\s*7)$/.test(rest)) qualToken = "dim7";
+    else if (/^(half[\s-]*diminished(\s*7)?|half[\s-]*dim(\s*7)?)$/.test(rest))
+      qualToken = "m7b5";
     else if (/^(diminished|dim)$/.test(rest)) qualToken = "dim";
     else if (/^(augmented|aug)$/.test(rest)) qualToken = "aug";
     else if (/^(sus|sus4)$/.test(rest)) qualToken = "sus4";
