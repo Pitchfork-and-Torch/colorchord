@@ -66,6 +66,7 @@ export const Route = createRootRoute({
       { name: "twitter:title", content: APP_NAME },
       { name: "twitter:description", content: APP_DESC },
       { name: "twitter:image", content: OG_IMAGE },
+      { name: "twitter:image:alt", content: "ColorChord dual harmonic wheel" },
     ],
     scripts: [
       {
@@ -89,8 +90,8 @@ export const Route = createRootRoute({
       { rel: "alternate", type: "text/plain", href: `${SITE_URL}/llms.txt` },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/icon-192.png" },
-      { rel: "icon", href: "/icon-192.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/icon-512.png", sizes: "512x512" },
     ],
   }),
   component: () => (
@@ -99,10 +100,15 @@ export const Route = createRootRoute({
         <HeadContent />
       </head>
       <body>
+        <a className="skip" href="#content">
+          Skip to content
+        </a>
         <CreatedWithGrokBanner />
         <AuthProvider>
           <PwaRegister />
-          <Outlet />
+          <main id="content">
+            <Outlet />
+          </main>
         </AuthProvider>
         <script defer src="https://hits.jonbailey.xyz/c.js" data-site="colorchord-play"></script>
         <Scripts />
