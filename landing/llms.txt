@@ -51,3 +51,5 @@ The Living Spectrum app exposes `GET /api/chord-color?q=Am7` on https://play-col
 - https://jonbailey.xyz/
 - https://music.jonbailey.xyz/
 - https://tastegraph.jonbailey.xyz/
+
+Last reviewed: 2026-09-22
