@@ -91,8 +91,8 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=2.1.1", sizes: "180x180" },
-      { rel: "apple-touch-icon", href: "/icon-512.png?v=2.1.1", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: `/apple-touch-icon.png?v=${APP_VERSION}`, sizes: "180x180" },
+      { rel: "apple-touch-icon", href: `/icon-512.png?v=${APP_VERSION}`, sizes: "512x512" },
     ],
   }),
   component: () => (
