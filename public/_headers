@@ -1,0 +1,7 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/VERSION
+  Cache-Control: public, max-age=300, must-revalidate
+  Content-Type: text/plain; charset=utf-8
