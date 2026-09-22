@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/_headers",
+    "/VERSION",
+    "/7577922ed4d3ec3df303933b78cbd0ee.txt",
+    "/apple-touch-icon.png",
+    "/favicon.svg",
+    "/icon-192.png",
+    "/icon-512.png",
+    "/llms.txt",
+    "/manifest.webmanifest",
+    "/og.jpg",
+    "/og.png",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/sw.js",
+    "/assets/button-BKjhT-5t.js",
+    "/assets/index-BYe6kIgT.js",
+    "/assets/login-D_kDGddN.js",
+    "/assets/routes-BGfxVEyj.js",
+    "/assets/styles-6ZUOJU1-.css"
+  ]
+}
