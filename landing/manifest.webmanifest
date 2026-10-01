@@ -1,0 +1,14 @@
+{
+  "name": "ColorChord",
+  "short_name": "ColorChord",
+  "description": "Color is to light as chord is to sound. Circle of Fifths mapped to the spectrum.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#050508",
+  "lang": "en",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

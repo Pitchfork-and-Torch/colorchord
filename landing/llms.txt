@@ -1,0 +1,55 @@
+# ColorChord
+
+> Color is to light as chord is to sound. One tone, one wavelength. Mix either, and the Circle of Fifths is the color wheel.
+
+- Site: https://colorchord.jonbailey.xyz/
+- Instrument (Living Spectrum): https://play-colorchord.jonbailey.xyz/
+- Author: @suddenlyjon / https://jonbailey.xyz/
+- Version: 2.2.0
+
+## One-liner
+
+ColorChord is a dual harmonic map: each step on the Circle of Fifths is also +30 degrees of hue. Tritones are complementary colors. Chords mix into living light.
+
+## Core mapping (fifths index -> note -> hue)
+
+| # | Note | Hue | Color name |
+|---|------|-----|------------|
+| 0 | C | 0° | Crimson |
+| 1 | G | 30° | Vermilion |
+| 2 | D | 60° | Amber |
+| 3 | A | 90° | Chartreuse |
+| 4 | E | 120° | Emerald |
+| 5 | B | 150° | Spring |
+| 6 | F#/Gb | 180° | Cyan |
+| 7 | Db/C# | 210° | Azure |
+| 8 | Ab/G# | 240° | Sapphire |
+| 9 | Eb/D# | 270° | Violet |
+| 10 | Bb/A# | 300° | Magenta |
+| 11 | F | 330° | Rose |
+
+## Theory claims (contention, not dogma)
+
+1. A pure tone is analogous to a pure wavelength seed.
+2. A chord (simultaneous tones) is analogous to a color (mixture of light).
+3. The fifths geometry and the hue wheel can share one clock face.
+4. Maximum musical tension (tritone) aligns with maximum hue contrast (complement).
+
+## FAQ
+
+### What is ColorChord?
+An interactive dual mapping of music harmony geometry onto color, with a 3D wheel on this landing page and a full instrument at https://play-colorchord.jonbailey.xyz/.
+
+### Is the mapping unique or scientific law?
+It is a designed instrument and artistic-scientific contention. Relative fifths steps are fixed; absolute rotation of C onto a hue is a design choice (here C = crimson 0°).
+
+### Where is the API?
+The Living Spectrum app exposes `GET /api/chord-color?q=Am7` on https://play-colorchord.jonbailey.xyz/ for JSON color lookups.
+
+## Related network
+
+- https://jonbailey.xyz/
+- https://music.jonbailey.xyz/
+- https://tastegraph.jonbailey.xyz/
+
+Last reviewed: 2026-09-22

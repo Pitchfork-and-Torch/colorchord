@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ColorChord - Color is to light as chord is to sound</title>
+  <meta name="description" content="ColorChord maps the Circle of Fifths onto the color wheel: one fifth clockwise is 30 degrees of hue. Tritones are complements. Chords mix into living light. Explore the dual wheel and the theory behind it." />
+  <meta name="theme-color" content="#05010f" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="author" content="Jon Bailey / @suddenlyjon" />
+  <link rel="canonical" href="https://colorchord.jonbailey.xyz/" />
+  <link rel="alternate" type="text/plain" href="https://colorchord.jonbailey.xyz/llms.txt" title="llms.txt" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://colorchord.jonbailey.xyz/" />
+  <meta property="og:site_name" content="ColorChord" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="ColorChord - Color is to light as chord is to sound" />
+  <meta property="og:description" content="Circle of Fifths mapped to the spectrum. One step = one perfect fifth = 30 degrees of hue. Interactive 3D dual wheel + theory." />
+  <meta property="og:image" content="https://colorchord.jonbailey.xyz/cards/colorchord-og-1200x630.jpg?v=2.2.0" />
+  <meta property="og:image:secure_url" content="https://colorchord.jonbailey.xyz/cards/colorchord-og-1200x630.jpg?v=2.2.0" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="ColorChord infographic: Circle of Fifths as color wheel, thesis and dual map facts" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@suddenlyjon" />
+  <meta name="twitter:creator" content="@suddenlyjon" />
+  <meta name="twitter:title" content="ColorChord - Color is to light as chord is to sound" />
+  <meta name="twitter:description" content="Fifths = hue. Tritones = complements. Chords mix into living light. Interactive dual wheel." />
+  <meta name="twitter:image" content="https://colorchord.jonbailey.xyz/cards/colorchord-og-1200x630.jpg?v=2.2.0" />
+  <meta name="twitter:image:alt" content="ColorChord infographic: Circle of Fifths as color wheel, thesis and dual map facts" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2.2.0" sizes="180x180" />
+  <link rel="apple-touch-icon" href="/icon-512.png?v=2.2.0" sizes="512x512" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+  
+  
+  <style type="text/css">@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:600;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}</style>
+  <link rel="stylesheet" href="/assets/styles.css?v=1.3.0c" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "ColorChord",
+        "url": "https://colorchord.jonbailey.xyz/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and WebGL",
+        "softwareVersion": "2.2.0",
+        "description": "Interactive landing for ColorChord: Circle of Fifths mapped to the color spectrum. Color is to light as chord is to sound.",
+        "image": "https://colorchord.jonbailey.xyz/cards/colorchord-og-1200x630.jpg?v=2.2.0",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "creator": { "@type": "Person", "name": "suddenlyjon", "url": "https://x.com/suddenlyjon", "sameAs": ["https://jonbailey.xyz/"] },
+        "relatedLink": "https://play-colorchord.jonbailey.xyz/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "ColorChord",
+        "url": "https://colorchord.jonbailey.xyz/",
+        "isPartOf": { "@type": "WebSite", "name": "Jon Bailey Network", "url": "https://jonbailey.xyz/" },
+        "primaryImageOfPage": { "@type": "ImageObject", "url": "https://colorchord.jonbailey.xyz/cards/colorchord-og-1200x630.jpg?v=2.2.0", "width": 1200, "height": 630 }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is ColorChord?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ColorChord is a dual mapping of the Circle of Fifths onto the visible color spectrum: each step clockwise is a perfect fifth in pitch and about 30 degrees of hue. Chords mix into living colors; tritones sit opposite as complementary colors."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does color is to light as chord is to sound mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A single wavelength of light is like a pure tone. A mixture of wavelengths (what we call a color in practice) is like a chord: simultaneous tones that fuse into one perceived quality. ColorChord makes that analogy spatial and playable."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where is the full ColorChord instrument?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Living Spectrum instrument (play, ask, live resonance, journeys) is at https://play-colorchord.jonbailey.xyz/. This site is the theory and showcase landing at colorchord.jonbailey.xyz."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <canvas id="cosmos-bg" class="cosmos-bg" aria-hidden="true"></canvas>
+  <div class="cosmos-veil" aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="site-shell" class="site-shell">
+  <div class="spectrum-bar" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-island">
+        <a class="x-follow" href="https://x.com/suddenlyjon" target="_blank" rel="noopener noreferrer" aria-label="Follow @suddenlyjon on X" title="Follow @suddenlyjon on X">
+          <span class="x-follow-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </span>
+          <span class="x-follow-handle">@suddenlyjon</span>
+        </a>
+        <a class="wordmark" href="/">ColorChord</a>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-link" href="#theory">Theory</a>
+        <a class="nav-link" href="#mapping">Map</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+        <a class="btn btn-primary btn-sm" href="https://play-colorchord.jonbailey.xyz/" target="_blank" rel="noopener noreferrer">Instrument</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="kicker">Living spectrum</p>
+        <h1>
+          <span class="grad">ColorChord</span><br />
+          Fifths become hue.
+        </h1>
+        <p class="thesis">
+          <em>Color is to light as chord is to sound.</em>
+          One tone, one wavelength. Mix either, and the Circle of Fifths is the color wheel.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#wheel">Play the wheel</a>
+          <a class="btn btn-ghost-solid" href="https://play-colorchord.jonbailey.xyz/" target="_blank" rel="noopener noreferrer">Open instrument</a>
+        </div>
+        <div class="hero-meta" aria-label="Key facts">
+          <span class="meta-pill"><strong>12</strong> fifths · <strong>360°</strong></span>
+          <span class="meta-pill"><strong>1</strong> step = fifth + <strong>30°</strong></span>
+          <span class="meta-pill">Tritone = complement</span>
+        </div>
+      </div>
+
+      <div class="wheel-wrap reveal" id="wheel">
+        <div class="wheel-card" aria-hidden="true"></div>
+        <div id="wheel-stage" class="wheel-stage" aria-label="Interactive ColorChord 3D wheel">
+          <div class="wheel-core-label" id="core-color-label" aria-live="polite">Crimson mix</div>
+        </div>
+        <div class="wheel-dock">
+          <div class="wheel-chrome">
+            <div class="live-readout">
+              <div id="mix-swatch" aria-hidden="true"></div>
+              <div class="readout-text">
+                <strong id="active-note">C Major</strong>
+                <span><span id="active-color">Crimson</span> · <span id="mix-label">chord</span> · <span id="tone-list">C · E · G</span></span>
+              </div>
+            </div>
+            <div class="wheel-tools">
+              <button type="button" class="tool-toggle biomes-toggle" id="biomes-toggle" aria-pressed="false" title="Awaken Living Biomes - spectral gardens for each fifth">
+                <span class="biomes-dot" aria-hidden="true"></span>
+                <span class="biomes-label">Awaken Biomes</span>
+              </button>
+              <button type="button" class="tool-toggle tool-icon" id="capture-biome" hidden title="Capture Biome as PNG" aria-label="Capture Biome">
+                <span aria-hidden="true">Capture</span>
+              </button>
+              <button type="button" class="tool-toggle tool-icon" id="journey-biome" hidden title="Record a chord journey" aria-pressed="false" aria-label="Journey recorder">
+                <span class="journey-label">Journey</span>
+              </button>
+              <button type="button" class="sound-toggle" id="sound-toggle" aria-pressed="true" title="Toggle sound">
+                <span class="sound-dot" aria-hidden="true"></span>
+                <span class="sound-label">Sound on</span>
+              </button>
+            </div>
+          </div>
+          <p class="biome-readout" id="biome-readout" hidden aria-live="polite"></p>
+          <p class="hint">Drag · tap · <kbd>←</kbd><kbd>→</kbd> · core = chord color · optional Living Biomes</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls reveal" aria-label="Wheel controls">
+      <div class="panel panel-notes">
+        <h2>Notes <span class="panel-sub">fifths order</span></h2>
+        <div class="note-chips" id="note-chips"></div>
+      </div>
+      <div class="panel panel-quality">
+        <h2>Quality</h2>
+        <div class="q-bar" id="quality-bar"></div>
+      </div>
+      <div class="panel panel-ask">
+        <h2>Ask a color</h2>
+        <form class="ask-form" id="ask-form" action="#" method="get">
+          <label class="sr-only" for="ask-input">Chord symbol</label>
+          <input id="ask-input" name="q" type="search" enterkeyhint="go" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Am7, G7, F#maj7" aria-label="Chord symbol" />
+          <button type="submit" class="btn btn-primary ask-submit" id="ask-btn">Color it</button>
+        </form>
+        <p id="ask-output" aria-live="polite">Type a chord. Tones light. Core mixes.</p>
+        <div class="detail-grid">
+          <div id="hue-span">0° hue span</div>
+          <div id="complement-line">Tritone / complement: -</div>
+          <div id="neighbors-line">Neighbors: -</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="theory">
+      <div class="section-head reveal">
+        <h2>Same clock. Two faces.</h2>
+        <p>
+          Frequency, interference, mixture - light and sound already rhyme.
+          Fifths geometry meets the hue wheel. ColorChord puts them on one dial.
+        </p>
+      </div>
+
+      <div class="equation reveal">
+        <div class="eq-card">
+          <h3>Tone</h3>
+          <p>A nearly pure frequency in air. On the wheel: a single note at one fifths index, one hue, one wavelength name.</p>
+        </div>
+        <div class="eq-op" aria-hidden="true">:</div>
+        <div class="eq-card">
+          <h3>Wavelength</h3>
+          <p>A nearly pure frequency in light. Not yet "color culture" - the spectral seed that mixtures grow from.</p>
+        </div>
+        <div class="eq-op" aria-hidden="true">::</div>
+        <div class="eq-card" style="border-color: color-mix(in srgb, var(--accent) 35%, var(--line));">
+          <h3>Chord : Color</h3>
+          <p>Simultaneous tones fuse into one heard quality. Simultaneous hues fuse into one seen quality. Mixture is the shared verb.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="section-head reveal">
+        <h2>Why fifths, not chromatic steps?</h2>
+        <p>
+          The chromatic scale is a ruler. The Circle of Fifths is a story:
+          dominant, subdominant, the long way home. Map that story onto hue,
+          and harmony becomes distance you can see.
+        </p>
+      </div>
+      <div class="principles">
+        <article class="principle reveal">
+          <div class="num">01</div>
+          <h3>One step = 30°</h3>
+          <p>Clockwise: perfect fifth up, +30° hue. Twelve steps close both rings. C at crimson 0°; F♯ at cyan 180°.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="num">02</div>
+          <h3>Tritone = complement</h3>
+          <p>Six fifths is maximum tension. On the color wheel that is 180° - complementary colors, maximum contrast.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="num">03</div>
+          <h3>Chords mix</h3>
+          <p>Chord color is a circular mean of tone hues. Close tones glow; wide spans wash toward white light.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="quote-band reveal">
+      <blockquote>A color is a chord · living light</blockquote>
+      <cite>ColorChord</cite>
+    </div>
+
+    <section class="section" id="mapping">
+      <div class="section-head reveal">
+        <h2>The dual chart</h2>
+        <p>Fifths index, note, hue, color name, spectral seed. Tap a row to light the wheel and hear the pad.</p>
+      </div>
+      <div class="table-wrap reveal">
+        <table class="map">
+          <thead>
+            <tr>
+              <th scope="col"> </th>
+              <th scope="col">#</th>
+              <th scope="col">Note</th>
+              <th scope="col">Hue</th>
+              <th scope="col">Color</th>
+              <th scope="col">λ seed</th>
+            </tr>
+          </thead>
+          <tbody id="map-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-head reveal">
+        <h2>FAQ</h2>
+        <p>Short answers for humans and answer engines.</p>
+      </div>
+      <div class="faq reveal">
+        <details open>
+          <summary>Science or designed instrument?</summary>
+          <p>Designed instrument - a playable contention. Wavelength labels are spectral seeds; perceived color is always mixture and context. The fifths geometry is standard. The power is the shared clock and the ear-eye loop.</p>
+        </details>
+        <details>
+          <summary>Why C at crimson?</summary>
+          <p>Someone has to sit at 0°. C = hue 0° so the fifths walk climbs warm into cyan at the tritone, then home through violet and rose. Rotate the ring if you like; relative steps stay fixed.</p>
+        </details>
+        <details>
+          <summary>Microtones / other systems?</summary>
+          <p>This site and the Living Spectrum instrument use twelve-tone equal temperament and the classic fifths circle. Other lattices deserve their own maps.</p>
+        </details>
+        <details>
+          <summary>Where is the full instrument?</summary>
+          <p>Living Spectrum - sound, resonance, journeys, light - lives at <a href="https://play-colorchord.jonbailey.xyz/" target="_blank" rel="noopener noreferrer">play-colorchord.jonbailey.xyz</a>. This page is the theory showcase.</p>
+        </details>
+        <details>
+          <summary>What are Living Biomes?</summary>
+          <p>Optional progressive enhancement. Each of the twelve fifths becomes a generative spectral garden rooted in its hue and wavelength seed. Single tones awaken pure biomes; chords hybridize them via the same circular-mean hue and interval geometry as the dual clock. Toggle off anytime - the theory view stays primary.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta reveal">
+      <div>
+        <h2>Hear the light.</h2>
+        <p>Full instrument: mic resonance, journeys, voicings, pocket color organ - or keep spinning the wheel.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://play-colorchord.jonbailey.xyz/" target="_blank" rel="noopener noreferrer">Launch instrument</a>
+        <a class="btn btn-ghost-solid" href="#wheel">Back to wheel</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong class="footer-brand">ColorChord</strong>
+        <div class="footer-meta">colorchord.jonbailey.xyz · v2.2.0 · Living Spectrum</div>
+        <div class="footer-by">By <a href="https://x.com/suddenlyjon" target="_blank" rel="noopener noreferrer">@suddenlyjon</a> · <a href="https://play-colorchord.jonbailey.xyz/" target="_blank" rel="noopener noreferrer">Instrument</a></div>
+      </div>
+      <div class="footer-links">
+        <a href="https://jonbailey.xyz/">jonbailey.xyz</a>
+        <a href="https://music.jonbailey.xyz/">Music</a>
+        <a href="https://tastegraph.jonbailey.xyz/">TasteGraph</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+    </div>
+  </footer>
+  </div><!-- /#site-shell -->
+
+  <script type="module" src="/assets/main.js?v=1.3.1c"></script>
+  <script defer src="https://hits.jonbailey.xyz/c.js" data-site="colorchord"></script>
+</body>
+</html>
